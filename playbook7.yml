@@ -1,0 +1,10 @@
+---
+- name: Install Software Packages
+  hosts: webserver
+  tasks:
+   - name: Install/Un-install firewalld
+     apt:
+      name: "{{a}}"
+      state: "{{b}}"
+      update_cache: "{{c}}"
+...

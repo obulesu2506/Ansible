@@ -1,0 +1,12 @@
+---
+- name: Installation of tree/git/maven softwares
+  hosts:  all
+  gather_facts: false
+  become: yes
+  tasks:
+   - name: Install/Unintall S/W
+     apt:
+      name: "{{a}}"
+      state: "{{b}}"
+      update_cache: "{{c}}"
+...

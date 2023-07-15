@@ -1,0 +1,24 @@
+---
+- name: Install docker and respective python packages
+  hosts: all
+  become: yes
+  tasks:
+   - name: install Python PIP Package on Ubuntu servers
+     apt:
+      name: python3-pip
+      state: present
+      update_cache: yes
+     when: ansible_distribution == "ubuntu"
+   - name: install python PIP package on RHEL servers
+     yum:
+      name: python3-pip
+      state: present
+      update_cache: yes
+     when: ansible_distribution == "RedHat"
+   - name: Download, install & docker S/w
+     shell: "{{item}}"
+     with_items:
+      - curl -fsSL http://get.docker.com -o install-docker.sh
+      - sh install-docker.sh
+      - pip3 install docker-py
+...

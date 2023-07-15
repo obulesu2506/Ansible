@@ -1,0 +1,36 @@
+---
+- name: Configuration of tomcat9 application with loops
+  hosts: all
+  tasks:
+   - name: Install tomcat9 & tomcat9-admin
+     apt:
+      name: "{{item.a}}"
+      state: "{{item.b}}"
+      update_cache: "{{item.c}}"
+     with_items:
+      - {a: tomcat9, b: present, c: yes}
+      - {a: tomcat9-admin, b: present, c: no}
+   - name: Copy tomcat-user.xml file
+     copy:
+      src: /home/ec2-user/tomcat-users.xml
+      dest: /etc/tomcat9
+   - name: Change the port from 8080 to 9090
+     replace:
+      regexp: 8080
+      replace: 9090
+      path: /etc/tomcat9/server.xml
+   - name: Restart the tomcat9
+     service:
+      name: tomcat9
+      state: restarted
+   - name: Pausing for 1 minute
+     pause:
+      minutes: 1
+   - name: Check tomcat9 on both server1 & server2
+     uri:
+      url: "{{item.a}}"
+      status_code: "{{item.b}}"
+     with_items:
+      - {a: http://172.31.20.209:9090, b: 200}
+      - {a: http://172.31.20.61:9090, b: 200}
+...

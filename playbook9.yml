@@ -1,0 +1,14 @@
+---
+- name: Installingmutiple software packages
+  hosts: all
+  tasks:
+   - name: Install tree/git/maven
+     apt:
+      name: "{{item}}"
+      state: present
+      update_cache: yes
+     with_items:
+      - tree
+      - git
+      - maven
+...

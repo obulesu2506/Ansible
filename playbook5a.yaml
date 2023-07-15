@@ -1,0 +1,13 @@
+---
+- name: Removing the users & created files
+  hosts: all
+  tasks:
+   - name: Removing the user
+     user:
+      name: "{{a}}"
+      state: "{{b}}"
+   - name: Removing files & directories from home
+     file:
+      name: "{{c}}"
+      state: "{{d}}"
+... 
